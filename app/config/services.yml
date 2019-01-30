@@ -33,3 +33,11 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    # fos_user.registration.controller:
+    #   class: AppBundle\Controller\RegistrationController
+
+    AppBundle\Controller\RegistrationController:
+        class: AppBundle\Controller\RegistrationController
+        arguments:
+            $formFactory: '@fos_user.registration.form.factory'

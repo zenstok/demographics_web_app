@@ -34,7 +34,6 @@
 </style>
 </head>
 <body>
-    
     <div class="limiter">
         <div class="container-login100" style="background-image: url('images/bg-01.jpg');">
             <div class="wrap-login100 p-t-30 p-b-50">
@@ -44,6 +43,11 @@
                 {% if error %}
                     <div class="alert" role="alert" style="background-color: #F8694A; color: white; font-family: Ubuntu-Bold;">
                       {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                {% endif %}
+                {% if register == true %}
+                    <div class="alert" role="alert" style="background-color: #4a944a; color: white; font-family: Ubuntu-Bold;">
+                      Account created successfully. You can log in now.
                     </div>
                 {% endif %}
 
@@ -65,6 +69,9 @@
 
                     <div class="container-login100-form-btn m-t-32">
                         <input class="login100-form-btn" type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans }}" />
+                    </div>
+                    <div class="float-right" style="padding: 5px;">
+                        <a href="/register">Register</a>
                     </div>
 
                 </form>
@@ -91,6 +98,8 @@
     <script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
     <script src="js/main.js"></script>
+
+    <script>$('#username, #password').val('');</script>
 
 </body>
 </html>
