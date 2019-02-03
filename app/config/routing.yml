@@ -21,3 +21,7 @@ homepage:
 charts:
   path:      /countries/{country}
   defaults:  { _controller: AppBundle:Default:charts }
+
+about:
+  path:      /about
+  defaults:  { _controller: AppBundle:Default:about }

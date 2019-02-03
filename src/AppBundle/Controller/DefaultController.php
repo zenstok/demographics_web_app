@@ -230,4 +230,14 @@ class DefaultController extends Controller
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
     }
+
+    public function aboutAction(Request $request)
+    {
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+            return $this->render('about/about.html.twig');
+        } else {
+            return $this->redirect($this->generateUrl('fos_user_security_login'));
+        }
+    }
 }
