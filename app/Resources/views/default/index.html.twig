@@ -1,11 +1,36 @@
 {% extends 'base.html.twig' %}
 
 {% block stylesheets %}
+<link href="css/jquery-jvectormap-2.0.3.css" rel="stylesheet">
+<style>
+@media screen and (max-width: 480px) {
+  #map {
+    height: 400px;
+  }
+
+  .mobile {
+    margin-top: 10px;
+    text-align: center;
+  }
+}
+@media screen and (min-width: 480px) {
+  #map {
+    height: 600px;
+  }
+}
+.select2-selection__rendered {
+    line-height: 33px !important;
+}
+.select2-container .select2-selection--single {
+    height: 37px !important;
+}
+.select2-selection__arrow {
+    height: 36px !important;
+}
+</style>
 {% endblock %}
 
 {% block body %}
-
-        <link href="css/jquery-jvectormap-2.0.3.css" rel="stylesheet">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="overview-wrap" style="margin-bottom: 10px;">
@@ -14,7 +39,7 @@
                                         <div class="account-wrap" stlye="user-select:none;">
                                             <div class="account-item clearfix js-item-menu">
                                                 <div class="image">
-                                                    <img src="images/icon/avatar-01.jpg" alt="John Doe">
+                                                    <img src="/images/icon/avatar-01.jpg" alt="John Doe">
                                                 </div>
                                                 <div class="content">
                                                     <a class="js-acc-btn" href="#">{{app.user.username}}</a>
@@ -23,7 +48,7 @@
                                                     <div class="info clearfix">
                                                         <div class="image">
                                                             <a href="#">
-                                                                <img src="images/icon/avatar-01.jpg" alt="John Doe">
+                                                                <img src="/images/icon/avatar-01.jpg" alt="John Doe">
                                                             </a>
                                                         </div>
                                                         <div class="content">
@@ -42,7 +67,23 @@
                                         </div>
                                     </div>
 
-                                    <div id="map" style="height:600px;"></div>
+                                    <div id="map"></div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 20px;">
+                                <div class="col col-md-3">
+                                    <label for="select" class=" form-control-label">Selectați țara pentru a genera datele:</label>
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <select name="select" id="selectCountry" class="form-control" style="height: 100px;">
+                                        <option value="0">Tara</option>
+                                        <option value="RO">Romania</option>
+                                        <option value="CA">Canada</option>
+                                        <option value="BZ">Belize</option>
+                                    </select>
+                                </div>
+                                <div class="col col-md-1 mobile">
+                                    <button class="btn btn-success" type="submit" id="btn">Generează</button>
                                 </div>
                             </div>
 
@@ -53,23 +94,34 @@
     <script src="js/jquery-jvectormap-world-mill-en.js"></script>
     <script src="js/GDPcolor.js"></script>
     <script>
+        $(function() {
+            $('#selectCountry').select2();
 
-      /* ---------- Map ---------- */
-      $(function() {
-        $('#map').vectorMap({
-          map: 'world_mill_en',
-          series: {
-            regions: [{
-              values: gdpData,
-              scale: ['#C8EEFF', '#0071A4'],
-              normalizeFunction: 'polynomial'
-            }]
-          },
-          backgroundColor: '#eef3f7',
-          onRegionClick: function(e, code) {
-            console.log(e);
-          },
+            /* ---------- Map ---------- */
+            $('#map').vectorMap({
+              map: 'world_mill_en',
+              series: {
+                regions: [{
+                  values: gdpData,
+                  scale: ['#C8EEFF', '#0071A4'],
+                  normalizeFunction: 'polynomial'
+                }]
+              },
+              backgroundColor: '#eef3f7',
+              onRegionClick: function(e, code) {
+                var url = '{{ path('charts', {'country': 'country_string'}) }}';
+                url = url.replace('country_string', code);
+                window.location.href = url;
+              },
+            });
+
+            $('#btn').click(function() {
+                if($('#selectCountry').val() != 0) {
+                    var url = '{{ path('charts', {'country': 'country_string'}) }}';
+                    url = url.replace('country_string', $('#selectCountry').val());
+                    window.location.href = url;
+                }
+            });
         });
-      });
     </script>
 {% endblock %}
