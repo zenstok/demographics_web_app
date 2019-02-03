@@ -201,12 +201,13 @@ class DefaultController extends Controller
                 'QA' => 'Qatar',
                 'MZ' => 'Mozambique',
             );
-
-            $string = file_get_contents("http://api.population.io:80/1.0/population/".$countries[$country]."/2019-02-03");
+            $now = new \DateTime();
+            $string = file_get_contents("http://api.population.io:80/1.0/population/".$countries[$country]."/".$now->format("Y-m-d"));
             $json=json_decode($string,true);
 
             return $this->render('charts/country.html.twig', array(
-                'json' => $countries[$country],
+                'country' => $countries[$country],
+                'json' => $json,
             ));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
