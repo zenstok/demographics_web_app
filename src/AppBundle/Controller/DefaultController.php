@@ -420,20 +420,9 @@ class DefaultController extends Controller
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 
-            return $this->render('info/about.html.twig');
+            return $this->render('about/about.html.twig');
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
-    }
-
-    public function privacyAction(Request $request)
-    {
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-
-            return $this->render('info/privacy.html.twig');
-        } else {
-            return $this->redirect($this->generateUrl('fos_user_security_login'));
-        }
-
     }
 }
