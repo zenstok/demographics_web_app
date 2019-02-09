@@ -112,7 +112,7 @@
                                         <option value="GA">Gabon</option>
                                         <option value="GN">Guinea</option>
                                         <option value="GM">Gambia</option>
-                                        {# <option value="GL">Greenland</option> #}
+                                        <option value="GL">Greenland</option>
                                         <option value="GH">Ghana</option>
                                         <option value="OM">Oman</option>
                                         <option value="TN">Tunisia</option>
@@ -273,16 +273,18 @@
                 regions: [{
                   values: gdpData,
                   scale: ['#C8EEFF', '#0071A4'],
-                  normalizeFunction: 'polynomial'
+                  normalizeFunction: 'polynomial',
+                  legend: {
+                    horizontal: true,
+                    title: 'PIB per capita'
+                  }
                 }]
               },
               backgroundColor: '#eef3f7',
               onRegionClick: function(e, code) {
-                if(code != "GL") {
                     var url = '{{ path('charts', {'country': 'country_string'}) }}';
                     url = url.replace('country_string', code);
                     window.location.href = url;
-                }
               },
             });
 

@@ -48,17 +48,23 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c1">
                                     <div class="overview__inner">
+                                      <a data-toggle="collapse" href="#collapse1">
                                         <div class="overview-box clearfix">
                                             <div class="icon">
                                                 <i class="zmdi zmdi-account-o"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>{{population.total_population.population}}</h2>
+                                                <h2>{{outputTotalPopulation.source.data[0].value}}</h2>
                                                 <span>populația țării</span>
                                             </div>
                                         </div>
                                         <div class="overview-chart">
                                             <canvas id="widgetChart1"></canvas>
+                                        </div>
+                                      </a>
+                                        <div id="collapse1" class="panel-collapse collapse">
+                                          <div class="panel-body" style="color:white;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                                          {# <div class="panel-footer">Panel Footer</div> #}
                                         </div>
                                     </div>
                                 </div>
@@ -106,9 +112,9 @@
                                             <div class="icon">
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
-                                            <div class="text">
-                                                <h2 id="gdpValue">100</h2>
-                                                <span>PIB, miliarde dolari</span>
+                                            <div class="text">  
+                                                <h2 id="gdpValue">{{outputGDPcapita.source.data[1].value|round}}</h2>
+                                                <span>PIB per capita, dolari</span>
                                             </div>
                                         </div>
                                         <div class="overview-chart">
@@ -122,7 +128,7 @@
                             <div class="col-lg-6">
                                 <div class="au-card m-b-30">
                                     <div class="au-card-inner">
-                                        <h3 class="title-2 m-b-40">Distribuția mortalității femeilor</h3>
+                                        <h3 class="title-2 m-b-40">Structura mortalității femeilor</h3>
                                         <canvas id="barChart1"></canvas>
                                     </div>
                                 </div>
@@ -130,7 +136,7 @@
                             <div class="col-lg-6">
                                 <div class="au-card m-b-30">
                                     <div class="au-card-inner">
-                                        <h3 class="title-2 m-b-40">Distribuția mortalității bărbaților</h3>
+                                        <h3 class="title-2 m-b-40">Structura mortalității bărbaților</h3>
                                         <canvas id="barChart2"></canvas>
                                     </div>
                                 </div>
@@ -142,16 +148,16 @@
 {% block javascripts %}
 <script src="/js/GDPcolor.js"></script>
 <script>
-    var prefix = window.location.href.split("countries/")[1];
-    $('#gdpValue').text(gdpData[prefix]);
+    // var prefix = window.location.href.split("countries/")[1];
+    // $('#gdpValue').text(gdpData[prefix]);
 
   try {
     //bar chart1
     var ctx = document.getElementById("barChart1");
     if (ctx) {
       ctx.height = 200;
-      labelsArr = [];
-      valuesArr = [];
+      let labelsArr = [];
+      let valuesArr = [];
       {% for item in mortalityDistributionFemale.mortality_distribution %}
         labelsArr.push({{item.age}}+" ani");
         valuesArr.push({{item.mortality_percent}}); 
@@ -198,18 +204,12 @@
       });
     }
 
-
-  } catch (error) {
-    console.log(error);
-  }
-
-  try {
     //bar chart2
     var ctx = document.getElementById("barChart2");
     if (ctx) {
       ctx.height = 200;
-      labelsArr = [];
-      valuesArr = [];
+      let labelsArr = [];
+      let valuesArr = [];
       {% for item in mortalityDistributionMale.mortality_distribution %}
         labelsArr.push({{item.age}}+" ani");
         valuesArr.push({{item.mortality_percent}}); 
@@ -257,8 +257,267 @@
     }
 
 
+    //WidgetChart 1
+    var ctx = document.getElementById("widgetChart1");
+    if (ctx) {
+      ctx.height = 130;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for pop in outputTotalPopulation.source.data|reverse %}
+        labelsArr.push({{pop.variable[3].value}}); 
+        valuesArr.push({{pop.value}}); 
+      {% endfor %}
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labelsArr,
+          type: 'line',
+          datasets: [{
+            data: valuesArr,
+            label: 'Populație',
+            backgroundColor: 'rgba(255,255,255,.1)',
+            borderColor: 'rgba(255,255,255,.55)',
+          },]
+        },
+        options: {
+          maintainAspectRatio: true,
+          legend: {
+            display: false
+          },
+          layout: {
+            padding: {
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0
+            }
+          },
+          responsive: true,
+          scales: {
+            xAxes: [{
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor: 'transparent'
+              },
+              ticks: {
+                fontSize: 2,
+                fontColor: 'transparent'
+              }
+            }],
+            yAxes: [{
+              display: false,
+              ticks: {
+                display: false,
+              }
+            }]
+          },
+          title: {
+            display: false,
+          },
+          elements: {
+            line: {
+              borderWidth: 0
+            },
+            point: {
+              radius: 0,
+              hitRadius: 10,
+              hoverRadius: 4
+            }
+          }
+        }
+      });
+    }
+
+
+    //WidgetChart 2
+    var ctx = document.getElementById("widgetChart2");
+    if (ctx) {
+      ctx.height = 130;
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['', '', '', '', '', ''],
+          type: 'line',
+          datasets: [{
+            data: [1, 18, 9, 17, 34, 22],
+            label: 'Dataset',
+            backgroundColor: 'transparent',
+            borderColor: 'rgba(255,255,255,.55)',
+          },]
+        },
+        options: {
+
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          },
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            titleFontSize: 12,
+            titleFontColor: '#000',
+            bodyFontColor: '#000',
+            backgroundColor: '#fff',
+            titleFontFamily: 'Montserrat',
+            bodyFontFamily: 'Montserrat',
+            cornerRadius: 3,
+            intersect: false,
+          },
+          scales: {
+            xAxes: [{
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor: 'transparent'
+              },
+              ticks: {
+                fontSize: 2,
+                fontColor: 'transparent'
+              }
+            }],
+            yAxes: [{
+              display: false,
+              ticks: {
+                display: false,
+              }
+            }]
+          },
+          title: {
+            display: false,
+          },
+          elements: {
+            line: {
+              tension: 0.00001,
+              borderWidth: 1
+            },
+            point: {
+              radius: 4,
+              hitRadius: 10,
+              hoverRadius: 4
+            }
+          }
+        }
+      });
+    }
+
+
+    //WidgetChart 3
+    var ctx = document.getElementById("widgetChart3");
+    if (ctx) {
+      ctx.height = 130;
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['', '', '', '', '', ''],
+          type: 'line',
+          datasets: [{
+            data: [65, 59, 84, 84, 51, 55],
+            label: 'Dataset',
+            backgroundColor: 'transparent',
+            borderColor: 'rgba(255,255,255,.55)',
+          },]
+        },
+        options: {
+
+          maintainAspectRatio: false,
+          legend: {
+            display: false
+          },
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            titleFontSize: 12,
+            titleFontColor: '#000',
+            bodyFontColor: '#000',
+            backgroundColor: '#fff',
+            titleFontFamily: 'Montserrat',
+            bodyFontFamily: 'Montserrat',
+            cornerRadius: 3,
+            intersect: false,
+          },
+          scales: {
+            xAxes: [{
+              gridLines: {
+                color: 'transparent',
+                zeroLineColor: 'transparent'
+              },
+              ticks: {
+                fontSize: 2,
+                fontColor: 'transparent'
+              }
+            }],
+            yAxes: [{
+              display: false,
+              ticks: {
+                display: false,
+              }
+            }]
+          },
+          title: {
+            display: false,
+          },
+          elements: {
+            line: {
+              borderWidth: 1
+            },
+            point: {
+              radius: 4,
+              hitRadius: 10,
+              hoverRadius: 4
+            }
+          }
+        }
+      });
+    }
+
+
+    //WidgetChart 4
+    var ctx = document.getElementById("widgetChart4");
+    if (ctx) {
+      ctx.height = 115;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for gdp in outputGDPcapita.source.data|reverse %}
+        labelsArr.push({{gdp.variable[3].value}}); 
+        valuesArr.push({{gdp.value}}); 
+      {% endfor %}
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labelsArr,
+          datasets: [
+            {
+              label: "PIB per capita",
+              data: valuesArr,
+              borderColor: "transparent",
+              borderWidth: "0",
+              backgroundColor: "rgba(255,255,255,.3)"
+            }
+          ]
+        },
+        options: {
+          maintainAspectRatio: true,
+          legend: {
+            display: false
+          },
+          scales: {
+            xAxes: [{
+              display: false,
+              categoryPercentage: 1,
+              barPercentage: 0.65
+            }],
+            yAxes: [{
+              display: false
+            }]
+          }
+        }
+      });
+    }
+
+
   } catch (error) {
     console.log(error);
   }
+
+
 </script>
 {% endblock %}

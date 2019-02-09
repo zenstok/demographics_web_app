@@ -25,3 +25,7 @@ charts:
 about:
   path:      /about
   defaults:  { _controller: AppBundle:Default:about }
+
+privacy_policy:
+  path:      /privacy-policy
+  defaults:  { _controller: AppBundle:Default:privacy }
