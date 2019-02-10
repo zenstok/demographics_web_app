@@ -295,6 +295,15 @@
                     window.location.href = url;
                 }
             });
+            {% for country in countries %}
+            $.ajax({
+                url: "https://api.worldbank.org/v2/sources/57/country/{{country}}/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=13&format=json",
+                success: function(data) {
+                console.log(data);
+                    console.log(data);
+                }
+            });
+            {% endfor %}
         });
     </script>
 {% endblock %}

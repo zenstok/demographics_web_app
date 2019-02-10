@@ -63,8 +63,7 @@
                                         </div>
                                       </a>
                                         <div id="collapse1" class="panel-collapse collapse">
-                                          <div class="panel-body" style="color:white;">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
-                                          {# <div class="panel-footer">Panel Footer</div> #}
+                                          <div class="panel-body" style="color:white;"><br>Populaţia reprezintă, alături de teritoriu şi de autoritatea guvernamentală, unul din elementele constitutive necesare pentru existenţa însăşi a statului .Nu se poate vorbi de existenţa unui stat dacă acesta nu are populaţie.Populaţia este în general definită ca totalitatea persoanelor fizice care locuiesc pe teritoriul unui stat şi sunt supuse jurisdicţiei acestuia.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -72,6 +71,7 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c2">
                                     <div class="overview__inner">
+                                      <a data-toggle="collapse" href="#collapse2">
                                         <div class="overview-box clearfix">
                                             <div class="icon">
                                                 <i class="zmdi zmdi-face"></i>
@@ -84,23 +84,32 @@
                                         <div class="overview-chart">
                                             <canvas id="widgetChart2"></canvas>
                                         </div>
+                                      </a>
+                                        <div id="collapse2" class="panel-collapse collapse">
+                                          <div class="panel-body" style="color:white;"><br>Speranţa de viaţă la  naştere este numărul mediu de ani pe care se consideră că un nou-născut  îl va trăi dacă sănătatea şi condiţiile de viaţă de la naştere rămân  neschimbate pe parcursul vieţii sale. De asemenea, speranţa de viaţă  reflectă nivelul sănătăţii unei populaţii şi calitatea îngrijirilor pe  care locuitorii săi le primesc atunci când sunt bolnavi. Speranţa de  viaţă este în general mai mare în ţările în care oamenii au venituri  mari decât în cele cu venituri medii şi mici.</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c3">
                                     <div class="overview__inner">
+                                      <a data-toggle="collapse" href="#collapse3">
                                         <div class="overview-box clearfix">
                                             <div class="icon">
                                                 <i class="zmdi zmdi-face"></i>
                                             </div>
                                             <div class="text">
-                                                {# <h2>{{lifeExpectancyMale.total_life_expectancy|round(2)}} ani</h2> #}
+                                                <h2>{{outputLifeExpectancyMale.source.data[2].value}} ani</h2>
                                                 <span>Speranța de viață bărbați</span>
                                             </div>
                                         </div>
                                         <div class="overview-chart">
                                             <canvas id="widgetChart3"></canvas>
+                                        </div>
+                                      </a>
+                                        <div id="collapse3" class="panel-collapse collapse">
+                                          <div class="panel-body" style="color:white;"><br>Speranţa de viaţă la  naştere este numărul mediu de ani pe care se consideră că un nou-născut  îl va trăi dacă sănătatea şi condiţiile de viaţă de la naştere rămân  neschimbate pe parcursul vieţii sale. De asemenea, speranţa de viaţă  reflectă nivelul sănătăţii unei populaţii şi calitatea îngrijirilor pe  care locuitorii săi le primesc atunci când sunt bolnavi. Speranţa de  viaţă este în general mai mare în ţările în care oamenii au venituri  mari decât în cele cu venituri medii şi mici.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -108,6 +117,7 @@
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c4">
                                     <div class="overview__inner">
+                                      <a data-toggle="collapse" href="#collapse4">
                                         <div class="overview-box clearfix">
                                             <div class="icon">
                                                 <i class="zmdi zmdi-money"></i>
@@ -120,6 +130,28 @@
                                         <div class="overview-chart">
                                             <canvas id="widgetChart4"></canvas>
                                         </div>
+                                      </a>
+                                        <div id="collapse4" class="panel-collapse collapse">
+                                          <div class="panel-body" style="color:white;"><br>PIB-ul pe cap de locuitor este un indicator de măsurare a producției totale a unei țări care preia produsul intern brut (PIB) și îl împarte la numărul populaţiei din țară.<br>PIB-ul pe cap de locuitor este foarte util atunci dorim să facem comparaţii între diferite țări, deoarece acesta reflectă performanța relativă a țărilor. Creșterea PIB-ului pe cap de locuitor semnalează o creștere a economiei și tinde să reflecte o creștere a productivității.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-lg-6">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Natalitatea</h3>
+                                        <canvas id="lineChart1"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                          <div class="col-lg-6">
+                                <div class="au-card m-b-30">
+                                    <div class="au-card-inner">
+                                        <h3 class="title-2 m-b-40">Mortalitatea</h3>
+                                        <canvas id="lineChart2"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -333,14 +365,20 @@
     var ctx = document.getElementById("widgetChart2");
     if (ctx) {
       ctx.height = 130;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for item in outputLifeExpectancyFemale.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %}
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['', '', '', '', '', ''],
+          labels: labelsArr,
           type: 'line',
           datasets: [{
-            data: [1, 18, 9, 17, 34, 22],
-            label: 'Dataset',
+            data: valuesArr,
+            label: 'Speranța de viață',
             backgroundColor: 'transparent',
             borderColor: 'rgba(255,255,255,.55)',
           },]
@@ -404,14 +442,20 @@
     var ctx = document.getElementById("widgetChart3");
     if (ctx) {
       ctx.height = 130;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for item in outputLifeExpectancyMale.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %}
       var myChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: ['', '', '', '', '', ''],
+          labels: labelsArr,
           type: 'line',
           datasets: [{
-            data: [65, 59, 84, 84, 51, 55],
-            label: 'Dataset',
+            data: valuesArr,
+            label: 'Speranța de viață',
             backgroundColor: 'transparent',
             borderColor: 'rgba(255,255,255,.55)',
           },]
@@ -509,6 +553,128 @@
               display: false
             }]
           }
+        }
+      });
+    }
+
+    //line chart
+    var ctx = document.getElementById("lineChart1");
+    if (ctx) {
+      ctx.height = 150;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for item in outputBirthRate.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %}
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labelsArr,
+          defaultFontFamily: "Poppins",
+          datasets: [
+            {
+              label: "Născuți vii la 1000 de locuitori",
+              borderColor: "rgba(0,0,0,.09)",
+              borderWidth: "1",
+              backgroundColor: "rgba(77, 175, 124, 1)",
+              data: valuesArr
+            }
+          ]
+        },
+        options: {
+          legend: {
+            position: 'top',
+            labels: {
+              fontFamily: 'Poppins'
+            }
+
+          },
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            intersect: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+          scales: {
+            xAxes: [{
+              ticks: {
+                fontFamily: "Poppins"
+
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontFamily: "Poppins"
+              }
+            }]
+          }
+
+        }
+      });
+    }
+
+    //line chart
+    var ctx = document.getElementById("lineChart2");
+    if (ctx) {
+      ctx.height = 150;
+      let labelsArr = [];
+      let valuesArr = [];
+      {% for item in outputDeathRate.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %}
+      var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labelsArr,
+          defaultFontFamily: "Poppins",
+          datasets: [
+            {
+              label: "Morți la 1000 de locuitori",
+              borderColor: "rgba(0,0,0,.09)",
+              borderWidth: "1",
+              backgroundColor: "rgba(150, 40, 27, 1)",
+              data: valuesArr
+            }
+          ]
+        },
+        options: {
+          legend: {
+            position: 'top',
+            labels: {
+              fontFamily: 'Poppins'
+            }
+
+          },
+          responsive: true,
+          tooltips: {
+            mode: 'index',
+            intersect: false
+          },
+          hover: {
+            mode: 'nearest',
+            intersect: true
+          },
+          scales: {
+            xAxes: [{
+              ticks: {
+                fontFamily: "Poppins"
+
+              }
+            }],
+            yAxes: [{
+              ticks: {
+                beginAtZero: true,
+                fontFamily: "Poppins"
+              }
+            }]
+          }
+
         }
       });
     }

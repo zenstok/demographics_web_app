@@ -11,10 +11,186 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $countries2 = array (
+                'BD' => 'BGD',
+                'BE' => 'BEL',
+                'BF' => 'BFA',
+                'BG' => 'BGR',
+                'BA' => 'BIH',
+                'BN' => 'BRN',
+                'BO' => 'BOL',
+                'JP' => 'JPN',
+                'BI' => 'BDI',
+                'BJ' => 'BEN',
+                'BT' => 'BTN',
+                'JM' => 'JAM',
+                'BW' => 'BWA',
+                'BR' => 'BRA',
+                'BS' => 'BHS',
+                'BY' => 'BLR',
+                'BZ' => 'BLZ',
+                'RU' => 'RUS',
+                'RW' => 'RWA',
+                'RS' => 'SRB',
+                'TL' => 'TLS',
+                'TM' => 'TKM',
+                'TJ' => 'TJK',
+                'RO' => 'ROU',
+                'GW' => 'GNB',
+                'GT' => 'GTM',
+                'GR' => 'GRC',
+                'GQ' => 'GNQ',
+                'GY' => 'GUY',
+                'GE' => 'GEO',
+                'GB' => 'GBR',
+                'GA' => 'GAB',
+                'GN' => 'GIN',
+                'GM' => 'GMB',
+                'GL' => 'GRL',
+                'GH' => 'GHA',
+                'OM' => 'OMN',
+                'TN' => 'TUN',
+                'JO' => 'JOR',
+                'HR' => 'HRV',
+                'HT' => 'HTI',
+                'HU' => 'HUN',
+                'HN' => 'HND',
+                'PR' => 'PRI',
+                'PS' => 'Palestine',
+                'PT' => 'PRT',
+                'PY' => 'PRY',
+                'PA' => 'PAN',
+                'PG' => 'PNG',
+                'PE' => 'PER',
+                'PK' => 'PAK',
+                'PH' => 'PHL',
+                'PL' => 'POL',
+                'ZM' => 'ZMB',
+                'EH' => 'Western%20Sahara',
+                'EE' => 'EST',
+                'EG' => 'EGY',
+                'ZA' => 'ZAF',
+                'EC' => 'ECU',
+                'IT' => 'ITA',
+                'VN' => 'VNM',
+                'SB' => 'SLB',
+                'ET' => 'ETH',
+                'SO' => 'SOM',
+                'ZW' => 'ZWE',
+                'ES' => 'ESP',
+                'ER' => 'ERI',
+                'ME' => 'MNE',
+                'MD' => 'MDA',
+                'MG' => 'MDG',
+                'MA' => 'MAR',
+                'UZ' => 'UZB',
+                'MM' => 'MMR',
+                'ML' => 'MLI',
+                'MN' => 'MNG',
+                'MK' => 'MKD',
+                'MW' => 'MWI',
+                'MR' => 'MRT',
+                'UG' => 'UGA',
+                'MY' => 'MYS',
+                'MX' => 'MEX',
+                'IL' => 'ISR',
+                'FR' => 'FRA',
+                'FI' => 'FIN',
+                'FJ' => 'FJI',
+                'FK' => 'Falkland%20Islands',
+                'NI' => 'NIC',
+                'NL' => 'NLD',
+                'NO' => 'NOR',
+                'NA' => 'NAM',
+                'VU' => 'VUT',
+                'NC' => 'NCL',
+                'NE' => 'NER',
+                'NG' => 'NGA',
+                'NZ' => 'NZL',
+                'NP' => 'NPL',
+                'XK' => 'XKX',
+                'CI' => 'CIV',
+                'CH' => 'CHE',
+                'CO' => 'COL',
+                'CN' => 'CHN',
+                'CM' => 'CMR',
+                'CL' => 'CHL',
+                'XC' => 'N.Cyprus',
+                'CA' => 'CAN',
+                'CG' => 'COG',
+                'CF' => 'CAF',
+                'CD' => 'COD',
+                'CZ' => 'CZE',
+                'CY' => 'CYP',
+                'CR' => 'CRI',
+                'CU' => 'CUB',
+                'SZ' => 'Swaziland',
+                'SY' => 'SYR',
+                'KG' => 'Kyrgyzstan',
+                'KE' => 'KEN',
+                'SS' => 'SSD',
+                'SR' => 'SUR',
+                'KH' => 'KHM',
+                'SV' => 'SLV',
+                'SK' => 'SVK',
+                'KR' => 'KOR',
+                'SI' => 'SVN',
+                'KP' => 'PRK',
+                'KW' => 'KWT',
+                'SN' => 'SEN',
+                'SL' => 'SLE',
+                'KZ' => 'KAZ',
+                'SA' => 'SAU',
+                'SE' => 'SWE',
+                'SD' => 'SDN',
+                'DO' => 'DMA',
+                'DJ' => 'DJI',
+                'DK' => 'DNK',
+                'DE' => 'DEU',
+                'YE' => 'YEM',
+                'DZ' => 'DZA',
+                'US' => 'USA',
+                'UY' => 'URY',
+                'LB' => 'LBN',
+                'LA' => 'LAO',
+                'TW' => 'TWN',
+                'TT' => 'TTO',
+                'TR' => 'TUR',
+                'LK' => 'LKA',
+                'LV' => 'LVA',
+                'LT' => 'LTU',
+                'LU' => 'LUX',
+                'LR' => 'LBR',
+                'LS' => 'LSO',
+                'TH' => 'THA',
+                'TG' => 'TGO',
+                'TD' => 'TCD',
+                'LY' => 'LBY',
+                'AE' => 'ARE',
+                'VE' => 'VEN',
+                'AF' => 'AFG',
+                'IQ' => 'IRQ',
+                'IS' => 'ISL',
+                'IR' => 'IRN',
+                'AM' => 'ARM',
+                'AL' => 'ALB',
+                'AO' => 'AGO',
+                'AR' => 'ARG',
+                'AU' => 'AUS',
+                'AT' => 'AUT',
+                'IN' => 'IND',
+                'TZ' => 'TZA',
+                'AZ' => 'AZE',
+                'IE' => 'IRL',
+                'ID' => 'IDN',
+                'UA' => 'UKR',
+                'QA' => 'QAT',
+                'MZ' => 'MOZ',
+            );
 
-            return $this->render('default/index.html.twig', [
-                'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-            ]);
+            return $this->render('default/index.html.twig', array(
+            	'countries' => $countries2
+            ));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
         }
@@ -395,15 +571,22 @@ class DefaultController extends Controller
             $inputTotalPopulation = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.POP.TOTL/time/all/version/201809/data?per_page=6&format=json");
             $outputTotalPopulation = json_decode($inputTotalPopulation, true);
 
-            $inputGDPcapita = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=12&format=json");
+            $inputGDPcapita = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=13&format=json");
             $outputGDPcapita = json_decode($inputGDPcapita, true);
 
-            $inputLifeExpectancyFemale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.FE.IN/time/all/version/201809/data?per_page=9&format=json");
+            $inputLifeExpectancyFemale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.FE.IN/time/all/version/201809/data?per_page=11&format=json");
             $outputLifeExpectancyFemale = json_decode($inputLifeExpectancyFemale, true);
 
-            $inputLifeExpectancyMale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.MA.IN/time/all/version/201809/data?per_page=9&format=json");
+            $inputLifeExpectancyMale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.MA.IN/time/all/version/201809/data?per_page=11&format=json");
             $outputLifeExpectancyMale = json_decode($inputLifeExpectancyMale, true);
 
+
+            $inputBirthRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country//".$countries2[$country]."/series/SP.DYN.CBRT.IN/time/all/version/201809/data?per_page=50&format=json");
+            $outputBirthRate = json_decode($inputBirthRate, true);
+
+
+            $inputDeathRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country//".$countries2[$country]."/series/SP.DYN.CDRT.IN/time/all/version/201809/data?per_page=50&format=json");
+            $outputDeathRate = json_decode($inputDeathRate, true);
 
             $beautiful = str_replace("%20"," ",$countries[$country]);
             return $this->render('charts/country.html.twig', array(
@@ -417,6 +600,8 @@ class DefaultController extends Controller
                 'outputGDPcapita' => $outputGDPcapita,
                 'outputLifeExpectancyFemale' => $outputLifeExpectancyFemale,
                 'outputLifeExpectancyMale' => $outputLifeExpectancyMale,
+                'outputBirthRate' => $outputBirthRate,
+                'outputDeathRate' => $outputDeathRate,
             ));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
