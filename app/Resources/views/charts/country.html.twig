@@ -77,7 +77,7 @@
                                                 <i class="zmdi zmdi-face"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>{{lifeExpectancyFemale.total_life_expectancy|round(2)}} ani</h2>
+                                                <h2>{{outputLifeExpectancyFemale.source.data[2].value}} ani</h2>
                                                 <span>Speranța de viață femei</span>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                                 <i class="zmdi zmdi-face"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>{{lifeExpectancyMale.total_life_expectancy|round(2)}} ani</h2>
+                                                {# <h2>{{lifeExpectancyMale.total_life_expectancy|round(2)}} ani</h2> #}
                                                 <span>Speranța de viață bărbați</span>
                                             </div>
                                         </div>
@@ -113,7 +113,7 @@
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
                                             <div class="text">  
-                                                <h2 id="gdpValue">{{outputGDPcapita.source.data[1].value|round}}</h2>
+                                                <h2 id="gdpValue">{{outputGDPcapita.source.data[1].value|round(2)}}</h2>
                                                 <span>PIB per capita, dolari</span>
                                             </div>
                                         </div>

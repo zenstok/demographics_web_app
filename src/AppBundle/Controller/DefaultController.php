@@ -377,8 +377,14 @@ class DefaultController extends Controller
                 'MZ' => 'MOZ',
             );
             $now = new \DateTime();
-            $string = file_get_contents("http://api.population.io:80/1.0/population/".$countries[$country]."/".$now->format("Y-m-d"));
-            $population=json_decode($string,true);
+            // $string = file_get_contents("http://api.population.io:80/1.0/population/".$countries[$country]."/".$now->format("Y-m-d"));
+            // $population=json_decode($string,true);
+
+            // $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/female/".$countries[$country]."/1990-01-01");
+            // $lifeExpectancyFemale = json_decode($string,true);
+
+            // $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/male/".$countries[$country]."/1990-01-01");
+            // $lifeExpectancyMale = json_decode($string,true);
 
             $string = file_get_contents("http://api.population.io:80/1.0/mortality-distribution/".$countries[$country]."/female/5y/today");
             $mortalityDistributionFemale = json_decode($string,true);
@@ -386,29 +392,31 @@ class DefaultController extends Controller
             $string = file_get_contents("http://api.population.io:80/1.0/mortality-distribution/".$countries[$country]."/male/5y/today");
             $mortalityDistributionMale = json_decode($string,true);
 
-            $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/female/".$countries[$country]."/1990-01-01");
-            $lifeExpectancyFemale = json_decode($string,true);
-
-            $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/male/".$countries[$country]."/1990-01-01");
-            $lifeExpectancyMale = json_decode($string,true);
-
             $inputTotalPopulation = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.POP.TOTL/time/all/version/201809/data?per_page=6&format=json");
             $outputTotalPopulation = json_decode($inputTotalPopulation, true);
 
             $inputGDPcapita = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=12&format=json");
             $outputGDPcapita = json_decode($inputGDPcapita, true);
 
+            $inputLifeExpectancyFemale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.FE.IN/time/all/version/201809/data?per_page=9&format=json");
+            $outputLifeExpectancyFemale = json_decode($inputLifeExpectancyFemale, true);
+
+            $inputLifeExpectancyMale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.MA.IN/time/all/version/201809/data?per_page=9&format=json");
+            $outputLifeExpectancyMale = json_decode($inputLifeExpectancyMale, true);
+
 
             $beautiful = str_replace("%20"," ",$countries[$country]);
             return $this->render('charts/country.html.twig', array(
                 'country' => $beautiful,
-                'population' => $population,
+                // 'population' => $population,
+                // 'lifeExpectancyFemale' => $lifeExpectancyFemale,
+                // 'lifeExpectancyMale' => $lifeExpectancyMale,
                 'mortalityDistributionFemale' => $mortalityDistributionFemale,
                 'mortalityDistributionMale' => $mortalityDistributionMale,
-                'lifeExpectancyFemale' => $lifeExpectancyFemale,
-                'lifeExpectancyMale' => $lifeExpectancyMale,
                 'outputTotalPopulation' => $outputTotalPopulation,
                 'outputGDPcapita' => $outputGDPcapita,
+                'outputLifeExpectancyFemale' => $outputLifeExpectancyFemale,
+                'outputLifeExpectancyMale' => $outputLifeExpectancyMale,
             ));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));
