@@ -112,7 +112,7 @@
                                         <option value="GA">Gabon</option>
                                         <option value="GN">Guinea</option>
                                         <option value="GM">Gambia</option>
-                                        <option value="GL">Greenland</option>
+                                        {# <option value="GL">Greenland</option> #}
                                         <option value="GH">Ghana</option>
                                         <option value="OM">Oman</option>
                                         <option value="TN">Tunisia</option>
@@ -122,7 +122,7 @@
                                         <option value="HU">Hungary</option>
                                         <option value="HN">Honduras</option>
                                         <option value="PR">Puerto Rico</option>
-                                        <option value="PS">Palestine</option>
+                                        {# <option value="PS">Palestine</option> #}
                                         <option value="PT">Portugal</option>
                                         <option value="PY">Paraguay</option>
                                         <option value="PA">Panama</option>
@@ -132,7 +132,7 @@
                                         <option value="PH">Philippines</option>
                                         <option value="PL">Poland</option>
                                         <option value="ZM">Zambia</option>
-                                        <option value="EH">Western Sahara</option>
+                                        {# <option value="EH">Western Sahara</option> #}
                                         <option value="EE">Estonia</option>
                                         <option value="EG">Egypt</option>
                                         <option value="ZA">South Africa</option>
@@ -187,9 +187,9 @@
                                         <option value="CY">Cyprus</option>
                                         <option value="CR">Costa Rica</option>
                                         <option value="CU">Cuba</option>
-                                        <option value="SZ">Swaziland</option>
+                                        {# <option value="SZ">Swaziland</option> #}
                                         <option value="SY">Syria</option>
-                                        <option value="KG">Kyrgyzstan</option>
+                                        {# <option value="KG">Kyrgyzstan</option> #}
                                         <option value="KE">Kenya</option>
                                         <option value="SS">South Sudan</option>
                                         <option value="SR">Suriname</option>
@@ -282,9 +282,12 @@
               },
               backgroundColor: '#eef3f7',
               onRegionClick: function(e, code) {
+                let forbidden = ['GL', 'PS', 'EH', 'SZ', 'KG', '_2']
+                if(!forbidden.includes(code)) {
                     var url = '{{ path('charts', {'country': 'country_string'}) }}';
                     url = url.replace('country_string', code);
                     window.location.href = url;
+                }
               },
             });
 
@@ -295,15 +298,8 @@
                     window.location.href = url;
                 }
             });
-            {% for country in countries %}
-            $.ajax({
-                url: "https://api.worldbank.org/v2/sources/57/country/{{country}}/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=13&format=json",
-                success: function(data) {
-                console.log(data);
-                    console.log(data);
-                }
-            });
-            {% endfor %}
+
+            $('.jvectormap-legend-inner').remove();
         });
     </script>
 {% endblock %}
