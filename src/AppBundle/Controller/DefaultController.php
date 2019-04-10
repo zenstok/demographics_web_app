@@ -374,56 +374,43 @@ class DefaultController extends Controller
                 'QA' => 'QAT',
                 'MZ' => 'MOZ',
             );
-            $now = new \DateTime();
-            // $string = file_get_contents("http://api.population.io:80/1.0/population/".$countries[$country]."/".$now->format("Y-m-d"));
-            // $population=json_decode($string,true);
 
-            // $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/female/".$countries[$country]."/1990-01-01");
-            // $lifeExpectancyFemale = json_decode($string,true);
-
-            // $string = file_get_contents("http://api.population.io:80/1.0/life-expectancy/total/male/".$countries[$country]."/1990-01-01");
-            // $lifeExpectancyMale = json_decode($string,true);
-
-            $string = file_get_contents("http://api.population.io:80/1.0/mortality-distribution/".$countries[$country]."/female/5y/today");
-            $mortalityDistributionFemale = json_decode($string,true);
-
-            $string = file_get_contents("http://api.population.io:80/1.0/mortality-distribution/".$countries[$country]."/male/5y/today");
-            $mortalityDistributionMale = json_decode($string,true);
-
-            $inputTotalPopulation = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.POP.TOTL/time/all/version/201809/data?per_page=6&format=json");
+            $inputTotalPopulation = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.POP.TOTL/time/all/version/201809/data?per_page=7&format=json");
             $outputTotalPopulation = json_decode($inputTotalPopulation, true);
 
-            $inputGDPcapita = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=13&format=json");
+            $inputGDPcapita = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/NY.GDP.PCAP.CD/time/all/version/201809/data?per_page=14&format=json");
             $outputGDPcapita = json_decode($inputGDPcapita, true);
 
-            $inputLifeExpectancyFemale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.FE.IN/time/all/version/201809/data?per_page=11&format=json");
+            $inputLifeExpectancyFemale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.FE.IN/time/all/version/201809/data?per_page=12&format=json");
             $outputLifeExpectancyFemale = json_decode($inputLifeExpectancyFemale, true);
 
-            $inputLifeExpectancyMale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.MA.IN/time/all/version/201809/data?per_page=11&format=json");
+            $inputLifeExpectancyMale = file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.LE00.MA.IN/time/all/version/201809/data?per_page=12&format=json");
             $outputLifeExpectancyMale = json_decode($inputLifeExpectancyMale, true);
 
 
-            $inputBirthRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country//".$countries2[$country]."/series/SP.DYN.CBRT.IN/time/all/version/201809/data?per_page=50&format=json");
+            $inputBirthRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.CBRT.IN/time/all/version/201809/data?per_page=50&format=json");
             $outputBirthRate = json_decode($inputBirthRate, true);
 
-
-            $inputDeathRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country//".$countries2[$country]."/series/SP.DYN.CDRT.IN/time/all/version/201809/data?per_page=50&format=json");
+            $inputDeathRate= file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.DYN.CDRT.IN/time/all/version/201809/data?per_page=50&format=json");
             $outputDeathRate = json_decode($inputDeathRate, true);
+
+            $inputPopulationDensity= file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/EN.POP.DNST/time/all/version/201809/data?per_page=50&format=json");
+            $outputPopulationDensity = json_decode($inputPopulationDensity, true);
+
+            $inputUrbanPopulation= file_get_contents("https://api.worldbank.org/v2/sources/57/country/".$countries2[$country]."/series/SP.URB.TOTL.IN.ZS/time/all/version/201809/data?per_page=50&format=json");
+            $outputUrbanPopulation = json_decode($inputUrbanPopulation, true);
 
             $beautiful = str_replace("%20"," ",$countries[$country]);
             return $this->render('charts/country.html.twig', array(
                 'country' => $beautiful,
-                // 'population' => $population,
-                // 'lifeExpectancyFemale' => $lifeExpectancyFemale,
-                // 'lifeExpectancyMale' => $lifeExpectancyMale,
-                'mortalityDistributionFemale' => $mortalityDistributionFemale,
-                'mortalityDistributionMale' => $mortalityDistributionMale,
                 'outputTotalPopulation' => $outputTotalPopulation,
                 'outputGDPcapita' => $outputGDPcapita,
                 'outputLifeExpectancyFemale' => $outputLifeExpectancyFemale,
                 'outputLifeExpectancyMale' => $outputLifeExpectancyMale,
                 'outputBirthRate' => $outputBirthRate,
                 'outputDeathRate' => $outputDeathRate,
+                'outputPopulationDensity' => $outputPopulationDensity,
+                'outputUrbanPopulation' => $outputUrbanPopulation,
             ));
         } else {
             return $this->redirect($this->generateUrl('fos_user_security_login'));

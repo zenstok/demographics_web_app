@@ -43,7 +43,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         <div class="row m-t-25">
                             <div class="col-sm-6 col-lg-3">
                                 <div class="overview-item overview-item--c1">
@@ -54,7 +53,7 @@
                                                 <i class="zmdi zmdi-account-o"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>{{outputTotalPopulation.source.data[0].value}}</h2>
+                                                <h2>{{outputTotalPopulation.source.data[1].value}}</h2>
                                                 <span>populația țării</span>
                                             </div>
                                         </div>
@@ -77,7 +76,7 @@
                                                 <i class="zmdi zmdi-face"></i>
                                             </div>
                                             <div class="text">
-                                                <h2>{{outputLifeExpectancyFemale.source.data[2].value}} ani</h2>
+                                                <h2>{{outputLifeExpectancyFemale.source.data[3].value}} ani</h2>
                                                 <span>Speranța de viață femei</span>
                                             </div>
                                         </div>
@@ -86,7 +85,7 @@
                                         </div>
                                       </a>
                                         <div id="collapse2" class="panel-collapse collapse">
-                                          <div class="panel-body" style="color:white;"><br>Speranţa de viaţă la  naştere este numărul mediu de ani pe care se consideră că un nou-născut  îl va trăi dacă sănătatea şi condiţiile de viaţă de la naştere rămân  neschimbate pe parcursul vieţii sale. De asemenea, speranţa de viaţă  reflectă nivelul sănătăţii unei populaţii şi calitatea îngrijirilor pe  care locuitorii săi le primesc atunci când sunt bolnavi. Speranţa de  viaţă este în general mai mare în ţările în care oamenii au venituri  mari decât în cele cu venituri medii şi mici.</div>
+                                          <div class="panel-body" style="color:white;"><br>Speranţa de viaţă la naştere este numărul mediu de ani pe care se consideră că un nou-născut  îl va trăi dacă sănătatea şi condiţiile de viaţă de la naştere rămân  neschimbate pe parcursul vieţii sale. De asemenea, speranţa de viaţă  reflectă nivelul sănătăţii unei populaţii şi calitatea îngrijirilor pe  care locuitorii săi le primesc atunci când sunt bolnavi. Speranţa de  viaţă este în general mai mare în ţările în care oamenii au venituri  mari decât în cele cu venituri medii şi mici.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -98,9 +97,9 @@
                                         <div class="overview-box clearfix">
                                             <div class="icon">
                                                 <i class="zmdi zmdi-face"></i>
-                                            </div>
+                                            </div> 
                                             <div class="text">
-                                                <h2>{{outputLifeExpectancyMale.source.data[2].value}} ani</h2>
+                                                <h2>{{outputLifeExpectancyMale.source.data[3].value}} ani</h2>
                                                 <span>Speranța de viață bărbați</span>
                                             </div>
                                         </div>
@@ -123,7 +122,7 @@
                                                 <i class="zmdi zmdi-money"></i>
                                             </div>
                                             <div class="text">  
-                                                <h2 id="gdpValue">{{outputGDPcapita.source.data[1].value|round(2)}}</h2>
+                                                <h2 id="gdpValue">{{outputGDPcapita.source.data[2].value|round(2)}}</h2>
                                                 <span>PIB per capita, dolari</span>
                                             </div>
                                         </div>
@@ -160,7 +159,7 @@
                             <div class="col-lg-6">
                                 <div class="au-card m-b-30">
                                     <div class="au-card-inner">
-                                        <h3 class="title-2 m-b-40">Structura mortalității femeilor</h3>
+                                        <h3 class="title-2 m-b-40">Densitatea populației</h3>
                                         <canvas id="barChart1"></canvas>
                                     </div>
                                 </div>
@@ -168,7 +167,7 @@
                             <div class="col-lg-6">
                                 <div class="au-card m-b-30">
                                     <div class="au-card-inner">
-                                        <h3 class="title-2 m-b-40">Structura mortalității bărbaților</h3>
+                                        <h3 class="title-2 m-b-40">Gradul de urbanizare</h3>
                                         <canvas id="barChart2"></canvas>
                                     </div>
                                 </div>
@@ -190,10 +189,10 @@
       ctx.height = 200;
       let labelsArr = [];
       let valuesArr = [];
-      {% for item in mortalityDistributionFemale.mortality_distribution %}
-        labelsArr.push({{item.age}}+" ani");
-        valuesArr.push({{item.mortality_percent}}); 
-      {% endfor %}
+      {% for item in outputPopulationDensity.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %} 
       var myChart = new Chart(ctx, {
         type: 'bar',
         defaultFontFamily: 'Poppins',
@@ -201,7 +200,7 @@
           labels: labelsArr,
           datasets: [
             {
-              label: "Procent(%)",
+              label: "Număr locuitori/Km²",
               data: valuesArr,
               borderColor: "rgba(0, 123, 255, 0.9)",
               borderWidth: "0",
@@ -242,10 +241,10 @@
       ctx.height = 200;
       let labelsArr = [];
       let valuesArr = [];
-      {% for item in mortalityDistributionMale.mortality_distribution %}
-        labelsArr.push({{item.age}}+" ani");
-        valuesArr.push({{item.mortality_percent}}); 
-      {% endfor %}
+      {% for item in outputUrbanPopulation.source.data|reverse %}
+        labelsArr.push({{item.variable[3].value}}); 
+        valuesArr.push({{item.value}}); 
+      {% endfor %} 
       var myChart = new Chart(ctx, {
         type: 'bar',
         defaultFontFamily: 'Poppins',
